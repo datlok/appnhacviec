@@ -5,37 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Studio Manager Pro</title>
     <style>
-        :root { --p: #a78bfa; --bg: #f5f3ff; --t: #4c1d95; --red: #f87171; --green: #10b981; }
+        :root { --p: #a78bfa; --bg: #f5f3ff; --t: #4c1d95; --red: #f87171; --green: #10b981; --blue: #6366f1; }
         body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--t); margin: 0; padding: 5px; display: flex; justify-content: center; }
         .app { width: 100%; max-width: 480px; background: white; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); min-height: 98vh; border: 1px solid #ede9fe; overflow: hidden; display: flex; flex-direction: column; }
         
+        /* HEADER - NÉN GỌN TỐI ĐA */
         .header { padding: 10px 15px; border-bottom: 1px solid #f5f3ff; display: flex; justify-content: space-between; align-items: center; background: white; flex-shrink: 0; }
-        .btn-group { display: flex; gap: 5px; }
-        .btn-action { color: white; padding: 6px 10px; border-radius: 8px; font-size: 9px; font-weight: 800; border: none; cursor: pointer; text-transform: uppercase; }
+        .btn-group { display: flex; gap: 4px; }
+        .btn-action { color: white; padding: 6px 10px; border-radius: 8px; font-size: 9px; font-weight: 800; border: none; cursor: pointer; text-transform: uppercase; text-decoration: none; display: inline-block; text-align: center; }
         .btn-sync { background: var(--p); }
-        .btn-download { background: #6366f1; }
+        .btn-download { background: var(--blue); }
+        .btn-calendar { background: #f59e0b; }
 
+        /* DASHBOARD SỐ LIỆU SIÊU RÕ */
         .stats-container { padding: 5px; background: #fafafa; border-bottom: 1px solid #f1f5f9; flex-shrink: 0; }
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
-        .stat-card { background: white; border-radius: 8px; padding: 4px 2px; border: 1px solid #f1f5f9; display: flex; flex-direction: column; text-align: center; min-height: 50px; justify-content: center; }
-        .stat-lab { font-size: 8px; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 1px; white-space: nowrap; overflow: hidden; }
-        .stat-main-val { font-size: 15px; font-weight: 900; color: var(--t); line-height: 1; }
-        .stat-sub-val { font-size: 8px; color: #94a3b8; font-weight: 600; margin-top: 1px; }
+        .stat-card { background: white; border-radius: 8px; padding: 6px 2px; border: 1px solid #f1f5f9; display: flex; flex-direction: column; text-align: center; min-height: 52px; justify-content: center; }
+        .stat-lab { font-size: 8px; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 2px; }
+        .stat-main-val { font-size: 15px; font-weight: 900; color: var(--t); line-height: 1; letter-spacing: -0.5px; }
+        .stat-sub-val { font-size: 8px; color: #94a3b8; font-weight: 600; margin-top: 2px; }
         .stat-diff { font-size: 9px; font-weight: 800; }
         .diff-up { color: var(--green); }
         .diff-down { color: var(--red); }
 
+        /* DANH SÁCH CÔNG VIỆC */
         .scroll-content { flex: 1; overflow-y: auto; padding: 5px 10px 80px; scrollbar-width: none; }
         .scroll-content::-webkit-scrollbar { display: none; }
-        .input-group { padding: 5px 0; display: flex; gap: 5px; }
+        .input-group { padding: 8px 0; display: flex; gap: 5px; }
         .main-in { flex: 1; padding: 10px; border-radius: 12px; border: 2px solid #f5f3ff; outline: none; font-size: 14px; }
         .btn-add-main { background: var(--p); color: white; width: 40px; border-radius: 10px; border: none; font-size: 20px; font-weight: bold; }
 
         .card { background: #fff; border: 1px solid #ede9fe; border-radius: 18px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
         .card-h { padding: 10px 12px; background: #faf5ff; display: flex; justify-content: space-between; align-items: center; }
         .project-title { font-size: 15px; font-weight: 900; text-transform: uppercase; flex: 1; }
+        
         .item { padding: 8px 12px; border-top: 1px solid #f8f6ff; }
-        .item-name { font-size: 13px; font-weight: 600; color: #5b21b6; flex: 1; }
+        .item-name { font-size: 13px; font-weight: 600; color: #5b21b6; flex: 1; line-height: 1.4; }
 
         .switch { position: relative; width: 32px; height: 18px; flex-shrink: 0; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -46,7 +51,7 @@
 
         .report-area { margin-top: 8px; display: none; background: #fdfbff; border-radius: 12px; padding: 10px; border: 1px solid #f3efff; }
         .report-area.show { display: block; }
-        .report-box { width: 100%; padding: 8px; border-radius: 8px; font-size: 11px; min-height: 60px; border: 1px solid #eee; resize: none; font-family: inherit; color: #444; }
+        .report-box { width: 100%; padding: 8px; border-radius: 8px; font-size: 11px; min-height: 60px; border: 1px solid #eee; resize: none; font-family: inherit; }
 
         .img-grid { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
         .img-thumb { width: 52px; height: 52px; border-radius: 8px; object-fit: cover; border: 1px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -58,18 +63,17 @@
     <div class="app">
         <div class="header">
             <div>
-                <div style="font-size: 7px; font-weight: 800; color: var(--p);">TỔNG HỢP CÔNG VIỆC </div>
-                <div style="font-size: 16px; font-weight: 900;">PRO</div>
+                <div style="font-size: 7px; font-weight: 800; color: var(--p);">STUDIO MANAGER</div>
+                <div style="font-size: 16px; font-weight: 900;">REPORT PRO</div>
             </div>
             <div class="btn-group">
+                <a href="https://script.google.com/macros/s/AKfycbw2bUdfcbyoYjAco9me1YHp3yCdcBiBSBhpM312jexV76GwSdBLxIX2ZAODmF8n8UPU/exec" target="_blank" class="btn-action btn-calendar">Lịch</a>
                 <button class="btn-action btn-download" id="dBtn" onclick="sync('down')">Tải về</button>
                 <button class="btn-action btn-sync" id="sBtn" onclick="sync('up')">Đồng bộ</button>
             </div>
         </div>
 
-        <div class="stats-container">
-            <div id="stats-list" class="stats-grid"></div>
-        </div>
+        <div class="stats-container"><div id="stats-list" class="stats-grid"></div></div>
 
         <div class="scroll-content">
             <div class="input-group">
@@ -88,9 +92,8 @@
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFCFur6huycxSBV7UWNatlHzZTwk0-Zh5wT8z5qKxvq3vfEUbzYiDuB4X1bgA-Xus/exec";
         const SCRIPT_URL_2 = "https://script.google.com/macros/s/AKfycbwTfVyWxYqmTlP3HjD3b2Wra87ZQSrwXekPXkMTQURM3hZIg1u_tREyl4GrLOfgFOAa/exec";
 
-        let tasks = JSON.parse(localStorage.getItem('report_final_v33') || '[]');
-
-        function save() { localStorage.setItem('report_final_v33', JSON.stringify(tasks)); render(); }
+        let tasks = JSON.parse(localStorage.getItem('report_final_v37') || '[]');
+        function save() { localStorage.setItem('report_final_v37', JSON.stringify(tasks)); render(); }
 
         async function fetchDashboard() {
             try {
@@ -100,20 +103,15 @@
                 container.innerHTML = data.map(item => {
                     let val = item.value || 0;
                     let prev = item.lastMonthValue || 0;
-                    let isPct = item.isPercent === true || (item.label && item.label.includes("ME / RE"));
                     const format = (v) => {
-                        if (isPct) {
-                            let n = parseFloat(v); if (n < 1 && n > 0) n *= 100; return n.toFixed(1) + "%";
-                        }
+                        if (item.isPercent) return (parseFloat(v) * (v < 1 ? 100 : 1)).toFixed(2) + "%";
                         return isNaN(v) ? v : Number(v).toLocaleString('vi-VN');
                     };
-                    if (item.type === "HISTORY" && item.history) {
-                        return `<div class="stat-card"><div class="stat-lab">${item.label}</div><div class="stat-main-val">${format(item.history[0])}</div><div class="stat-sub-val">H.Qua: ${format(item.history[1])}</div></div>`;
-                    }
+                    if (item.type === "HISTORY") return `<div class="stat-card"><div class="stat-lab">${item.label}</div><div class="stat-main-val">${format(item.history[0])}</div><div class="stat-sub-val">H.Qua: ${format(item.history[1])}</div></div>`;
                     let diff = val - prev;
                     return `<div class="stat-card"><div class="stat-lab">${item.label}</div><div class="stat-main-val">${format(val)}</div><div class="stat-sub-val">CK: ${format(prev)}</div><div class="stat-diff ${diff < 0 ? 'diff-down' : 'diff-up'}">${diff < 0 ? '' : '+'}${format(diff)}</div></div>`;
                 }).join('');
-            } catch (e) { console.log("Lỗi tải số liệu"); }
+            } catch (e) { console.log("Lỗi tải dashboard"); }
         }
         fetchDashboard();
 
@@ -128,18 +126,8 @@
             }).catch(e => { alert("Lỗi kết nối!"); b.innerText = oldText; });
         }
 
-        function addT() {
-            const i = document.getElementById('tIn'); if(!i.value.trim()) return;
-            tasks.unshift({ id: Date.now(), name: i.value, ideas: [], imgs: [] });
-            i.value = ''; save();
-        }
-
-        function addI(tid) {
-            const n = prompt("Nội dung:"); if(!n) return;
-            tasks.find(x => x.id === tid).ideas.push({ id: Date.now(), name: n, done: false, report: "", imgs: [], reportImgs: [], showR: false });
-            save();
-        }
-
+        function addT() { const i = document.getElementById('tIn'); if(!i.value.trim()) return; tasks.unshift({ id: Date.now(), name: i.value, ideas: [], imgs: [] }); i.value = ''; save(); }
+        function addI(tid) { const n = prompt("Nội dung:"); if(!n) return; tasks.find(x => x.id === tid).ideas.push({ id: Date.now(), name: n, done: false, report: "", imgs: [], reportImgs: [], showR: false }); save(); }
         async function addImg(tId, iId = null, isReport = false) {
             const inp = document.createElement('input'); inp.type='file'; inp.accept='image/*';
             inp.onchange = async (e) => {
@@ -166,11 +154,7 @@
                 <div class="card">
                     <div class="card-h">
                         <span class="project-title" onclick="const n=prompt('Sửa:', '${t.name}'); if(n){t.name=n;save();}">📁 ${t.name}</span>
-                        <div style="display:flex; gap:3px;">
-                            <button class="btn-icon" onclick="addImg(${t.id})">🖼️</button>
-                            <button class="btn-icon" onclick="addI(${t.id})">＋</button>
-                            <button class="btn-icon" onclick="if(confirm('Xóa?')){tasks=tasks.filter(x=>x.id!==${t.id});save();}" style="color:#cbd5e1;">×</button>
-                        </div>
+                        <div style="display:flex; gap:3px;"><button class="btn-icon" onclick="addImg(${t.id})">🖼️</button><button class="btn-icon" onclick="addI(${t.id})">＋</button><button class="btn-icon" onclick="if(confirm('Xóa?')){tasks=tasks.filter(x=>x.id!==${t.id});save();}" style="color:#cbd5e1;">×</button></div>
                     </div>
                     <div class="img-grid" style="padding:0 12px;">${(t.imgs||[]).map(img=>`<img src="${img}" class="img-thumb" onclick="document.getElementById('modal').style.display='flex'; document.getElementById('modalImg').src='${img}'">`).join('')}</div>
                     ${t.ideas.map(i => `
@@ -184,10 +168,9 @@
                                 </div>
                             </div>
                             <div class="img-grid">${(i.imgs||[]).map(img=>`<img src="${img}" class="img-thumb" onclick="document.getElementById('modal').style.display='flex'; document.getElementById('modalImg').src='${img}'">`).join('')}</div>
-                            
                             <div class="report-area ${i.showR ? 'show' : ''}">
-                                <textarea class="report-box" onchange="const id=tasks.find(x=>x.id===${t.id}).ideas.find(x=>x.id===${i.id}); id.report=this.value; localStorage.setItem('report_final_v33', JSON.stringify(tasks));" placeholder="Kết quả công việc...">${i.report}</textarea>
-                                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
+                                <textarea class="report-box" onchange="const id=tasks.find(x=>x.id===${t.id}).ideas.find(x=>x.id===${i.id}); id.report=this.value; localStorage.setItem('report_final_v37', JSON.stringify(tasks));" placeholder="Kết quả công việc...">${i.report}</textarea>
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
                                     <button class="btn-icon" style="font-size:10px; font-weight:bold; color:var(--p);" onclick="addImg(${t.id}, ${i.id}, true)">+ 🖼️ ẢNH BÁO CÁO</button>
                                     <button class="btn-icon" style="color:var(--red); font-size:10px;" onclick="if(confirm('Xóa báo cáo?')){const id=tasks.find(x=>x.id===${t.id}).ideas.find(x=>x.id===${i.id}); id.report=''; id.reportImgs=[]; id.showR=false; save();}">🗑️ Xóa hết</button>
                                 </div>
